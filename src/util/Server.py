@@ -8,14 +8,17 @@ you must configure your server.properties file correctly.
 
 from mcrcon import MCRcon
 import os, logging, asyncio
+from src.util.Config import Config
 
 logger = logging.getLogger(__name__)
-
+cfg = Config()
 
 class Server:
     def __init__(self) -> None:
-        self.PORT = os.getenv('SERVER_PORT')
-        self.PASS = os.getenv('SERVER_PASSWORD')
+        #self.PORT = os.getenv('SERVER_PORT')
+        #self.PASS = os.getenv('SERVER_PASSWORD')
+        self.PORT = cfg.get_str('MCRCON', 'port')
+        self.PASS = cfg.get_str('MCRCON', 'password')
         
     def sendCmd(self, content: str) -> str:
         if self.isRunning():

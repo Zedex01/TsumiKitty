@@ -5,6 +5,10 @@ import re
 import logging
 import asyncio
 
+from pathlib import Path
+
+from src.util.Config import Config
+
 class LogWatcher:
 
     JOIN_PATTERN = re.compile(r": (.+?) joined the game")
@@ -12,25 +16,28 @@ class LogWatcher:
     ADVANCEMENT_PATTERN = re.compile(r": (.+?) has made the advancement \[(.+?)\]")
 
     def __init__(self, bot):
+        self.cfg = Config() #create config
+
+        self.log_path = Path(self.cfg.get_str("Setup","server_dir")) / "logs" / "latest.log"
+        print(self.log_path)
+
         self.bot = bot
-        self.log_path = r'D:/Servers/1.21.1-CustomCreate/server/logs/latest.log'
+        
         self._file = None
         self._running = False
 
     def start(self):
         """Open the log file and seek to the end (like tail -f)."""
-        print("Starting log watcher")
+        #print("Starting log watcher")
         self._file = open(self.log_path, "r", encoding="utf-8")
         self._file.seek(0, os.SEEK_END)
         self._running = True
-        print("Found end of log file")
+        #print("Found end of log file")
 
     def stop(self):
         if self._file:
             self._file.close()
         self._running = False
-            
-            
             
     async def watch(self):
         """Cont read from log"""
@@ -60,11 +67,9 @@ class LogWatcher:
                 
     async def on_event(self, event: dict):
         """Hook for handling events, override or replace this in your bot"""
-        print(f"[LOG WATCHER] {event}")
-        
-        channel_id = 1417484789237415996
+        #print(f"[LOG WATCHER] {event}")
+        channel_id = self.cfg.get_int("Notices", "channel_id")
         channel = self.bot.get_channel(channel_id)
-        
         if channel:
             if event["event"] == "join":
                 await channel.send(f"✅ **{event['player']}** joined the game")

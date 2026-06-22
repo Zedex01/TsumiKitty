@@ -1,8 +1,9 @@
 venv/
 dict/
 build/
-
 .vscode
 
 __pycache__/
 __init__.py
+
+config.ini

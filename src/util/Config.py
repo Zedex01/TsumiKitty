@@ -3,7 +3,7 @@ import configparser, os
 
 class Config:
     def __init__(self) -> None:
-        CONFIG_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "resources", "config", "config.ini")
+        CONFIG_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "config.ini")
         self.config = configparser.ConfigParser()
         self.config.read(CONFIG_FILE)
           

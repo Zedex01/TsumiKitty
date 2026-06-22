@@ -10,10 +10,11 @@ class Linker:
         self.cfg = Config()
         
         #Gets the file stored at the location of the env_var path
-        linker_file = os.getenv(self.cfg.get_str("Linker", "link_path_env_var_name"))  
+        #linker_file = os.getenv(self.cfg.get_str("Linker", "link_path_env_var_name"))  
+        linker_file = self.cfg.get_str("Linker", "linker_path")
         
         if not linker_file:
-            raise ValueError(f"Environment variable {env_var_name} is not set!")
+            raise ValueError(f"Linker file path not set!")
     
         self.linker_file = linker_file
         
@@ -33,8 +34,7 @@ class Linker:
             
         except Exception as e:
             print(f"ERR: {e}")
-        
-        
+         
     def getMinecraftName(self, UUID: str) -> str:
         UUID = str(UUID)
         
@@ -47,7 +47,7 @@ class Linker:
         else:
             return None
                       
-    
+    #TODO add in auto file creation if necc
     def isLinked(self, UUID: str) -> bool:
         UUID = str(UUID)
         try:

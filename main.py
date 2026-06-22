@@ -16,38 +16,54 @@
 #a method or variable prefixed with '_' is a hint to indicate it is 'protected'
 #and should not be accesed from outside the class
 
-import discord, os, asyncio
+import discord, os, asyncio, platform, sys, logging
 from src.bot.Bot import Bot
 from src.commands import *
 from dotenv import load_dotenv
-import logging
 from logging.handlers import TimedRotatingFileHandler
-
 
 #Util Imports
 from src.util.Config import Config
 from src.util.Server import Server
 
+#Grab current Env Variables
 load_dotenv()
-
-TOKEN = os.getenv('TSUMIKITTY_KEY')
 
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
 
-#Set command Prefix
-bot = Bot(command_prefix="!", intents=intents)
-
+#Create config object
 cfg = Config()
+
+#Set command Prefix
+PREFIX = cfg.get_str("Bot", "prefix")
+if not PREFIX:
+    print("[-] Prefix not set!")
+    sys.exit(1)
+
+bot = Bot(command_prefix=PREFIX, intents=intents)
+
+#Get Discord Bot Token
+TOKEN = cfg.get_str("Bot", "token")
+if not TOKEN:
+    print("[-] Token Not Set!")
+    sys.exit(1)
+
 
 #logging Setup
 def setup_logging():
     # Ensure logs/ directory exists
-    log_dir_env_var = cfg.get_str("Logger", "Logs_path_env_var")
-    log_dir = os.getenv(log_dir_env_var)
-    os.makedirs(log_dir, exist_ok=True)
 
+    #get log location from config file
+    log_dir = cfg.get_str("Logger", "Logs_path")
+
+    try:
+        os.makedirs(log_dir, exist_ok=True)
+    except Exception as e:
+        print("[-] Logger init error: ", e)
+        sys.exit(2)
+    
     # Create root logger
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)  # capture everything, handlers will filter
@@ -76,21 +92,23 @@ def setup_logging():
 
     return logger
 
+
 #TODO: Add helper method to simplify adding more commands using server, logger and config etc
 
 #Loading modular commands (cogs)
 async def load_extensions():
     await bot.load_extension("src.commands.GetServerStatus")
-    await bot.load_extension("src.commands.Exit")
+    #await bot.load_extension("src.commands.Exit")
     await bot.load_extension("src.commands.Reload")
-    await bot.load_extension("src.commands.StartServer")
-    await bot.load_extension("src.commands.StopServer")
+    #await bot.load_extension("src.commands.StartServer")
+    #await bot.load_extension("src.commands.StopServer")
     await bot.load_extension("src.commands.ListPlayers")
     await bot.load_extension("src.commands.LinkAccount")
-    await bot.load_extension("src.commands.Locate")
-    await bot.load_extension("src.commands.LocateStructure")
+    #await bot.load_extension("src.commands.Locate")
+    #await bot.load_extension("src.commands.LocateStructure")
     await bot.load_extension("src.commands.LogWatcherCog")
     await bot.load_extension("src.commands.Find")
+
    
 
 # Main Function

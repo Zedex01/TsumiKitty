@@ -1,7 +1,7 @@
 """ Linker Class """
 """ Used for attaching discord accounts to players on the server """
 import os, json, logging
-from src.util.Config import Config
+from src.util.config import Config
 
 logger = logging.getLogger(__name__)
 

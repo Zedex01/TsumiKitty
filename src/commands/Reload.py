@@ -2,7 +2,7 @@
 import discord, subprocess, os
 from discord.ext import commands
 import configparser as cp
-from src.util.Config import Config
+from src.util.config import Config
 
 class Reload(commands.Cog):
     def __init__(self, bot):

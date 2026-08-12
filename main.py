@@ -23,7 +23,7 @@ from dotenv import load_dotenv
 from logging.handlers import TimedRotatingFileHandler
 
 #Util Imports
-from src.util.Config import Config
+from src.util.config import Config
 from src.util.Server import Server
 
 #Grab current Env Variables

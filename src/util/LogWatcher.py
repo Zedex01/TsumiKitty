@@ -7,7 +7,7 @@ import asyncio
 
 from pathlib import Path
 
-from src.util.Config import Config
+from src.util.config import Config
 
 class LogWatcher:
 

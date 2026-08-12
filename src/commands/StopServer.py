@@ -2,7 +2,7 @@
 #Imports
 import discord, logging, os, subprocess
 from discord.ext import commands
-from src.util.Config import Config
+from src.util.config import Config
 from src.util.Server import Server
 
 #Setup

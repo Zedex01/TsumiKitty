@@ -1,7 +1,7 @@
 """ Check Server Status Commads """
 import discord, subprocess, logging, platform
 from discord.ext import commands
-from src.util.Config import Config
+from src.util.config import Config
 from src.util.Server import Server
 
 logger = logging.getLogger(__name__)

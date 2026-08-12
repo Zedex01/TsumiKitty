@@ -4,7 +4,7 @@
 import discord, os, subprocess, logging
 from discord.ext import commands
 from src.util.Server import Server
-from src.util.Config import Config
+from src.util.config import Config
 
 #Setup
 logger = logging.getLogger(__name__)

@@ -8,7 +8,7 @@ you must configure your server.properties file correctly.
 
 from mcrcon import MCRcon
 import os, logging, asyncio
-from src.util.Config import Config
+from src.util.config import Config
 
 logger = logging.getLogger(__name__)
 cfg = Config()
